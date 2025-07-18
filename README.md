@@ -36,8 +36,7 @@ My chosen API for this project is **Marvel API**.
 
 Here's a video / GIF that demos all of the app's implemented features:
 
-![marvel_characters_app](https://github.com/user-attachments/assets/a8ec3c83-9aa5-4919-b5b5-489bb6edf98c)
-
+![marvel_characters_app](https://github.com/user-attachments/assets/d5a7ad1c-a319-4577-9190-e3c463fb4597)
 
 GIF created with **ScreenToGif**
 
