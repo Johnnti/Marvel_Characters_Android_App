@@ -5,6 +5,7 @@ import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -35,12 +36,14 @@ class MainActivity : AppCompatActivity() {
         }
         val inputText: EditText = findViewById(R.id.inputText)
         val imageView: ImageView = findViewById(R.id.imageView)
+        val aboutSection: TextView = findViewById(R.id.textView2)
+        val comic: TextView = findViewById(R.id.textView5)
         val searchButton: Button = findViewById(R.id.button)
         searchButton.setOnClickListener{
-            findChar(inputText, imageView)
+            findChar(inputText, imageView, aboutSection, comic)
         }
     }
-    private fun findChar(inputText: EditText, imageView: ImageView){
+    private fun findChar(inputText: EditText, imageView: ImageView, aboutSection: TextView, comic: TextView){
         val client = AsyncHttpClient()
         params["apikey"] = pubKey
         params["ts"] = timestamp
@@ -60,9 +63,30 @@ class MainActivity : AppCompatActivity() {
                         val extension = thumbnail.optString("extension")
                         "${path.replace("http://", "https://")}.$extension"
                     }
+
                 Log.d("Results", "$imageUrl")
 
-                 Glide.with(this@MainActivity).load(imageUrl).into(imageView)
+
+                val about: String? = results.optJSONObject("data")
+                    ?.optJSONArray("results")
+                    ?.optJSONObject(0)
+                    ?.optString("description")
+
+                Log.d("Description", "$about")
+
+                val comics: String? = results.optJSONObject("data")
+                    ?.optJSONArray("results")
+                    ?.optJSONObject(0)
+                    ?.optJSONObject("comics")
+                    ?.optJSONArray("items")
+                    ?.optJSONObject(0)
+                    ?.optString("name")
+
+                Log.d("Comics", "$comics")
+
+                comic.text = comics
+                aboutSection.text = about
+                Glide.with(this@MainActivity).load(imageUrl).into(imageView)
             }
 
             override fun onFailure(
